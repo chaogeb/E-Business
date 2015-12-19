@@ -131,7 +131,8 @@ namespace SQLite
 		CardDB(Database &apdb);
 		~CardDB();
 
-		Card		getCard(const UserID id);
+		Card		getCard(const CardID id);
+		CardVec		getCards();
 		CardVec		getCards(const UserID userID);
 		void		createCard(const CardID ID, const UserID userID, const string cardNo, const string bankName);
 		void		deleteCard(const CardID ID);

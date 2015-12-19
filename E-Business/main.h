@@ -8,6 +8,7 @@ GoodsID goodID;
 TypeID typeID;
 SaleID saleID;
 CartID cartID;
+OrderID orderID;
 string str;
 unsigned int choice;
 

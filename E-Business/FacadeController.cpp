@@ -166,6 +166,36 @@ void FacadeController::ListGoods()
 	}
 }
 
+void FacadeController::AddCard(const UserID userID, const string cardNo)
+{
+	CardVec cv = cardCon.getCards();
+	CardID id;
+	if (cv.size() > 0) {
+		id = cv.at(cv.size() - 1).get_ID() + 1;
+	}
+	else id = 1;
+
+	if (cardCon.newCard(id, userID, cardNo)) {
+		printf("Card added successfully!\n");
+	}
+	else {
+		printf("Card ID exists!\n");
+	}
+}
+
+bool FacadeController::ListCards(const UserID userID)
+{
+	CardVec cv = cardCon.getCards(userID);
+	if (cv.size() == 0) {
+		printf("No card founded!\n");
+		return false;
+	}
+	for each (Card card in cv) {
+		printf(">>  %d. \t%s\n", card.get_ID(), card.get_CardNo().c_str());
+	}
+	return true;
+}
+
 void FacadeController::ListCarts(const UserID userid)
 {
 	for each (Cart cart in cartCon.getCarts(userid)) {
@@ -240,10 +270,10 @@ void FacadeController::ClearCart(const UserID userid)
 	}
 }
 
-void FacadeController::CreateOrder(const UserID userid)
+OrderID FacadeController::CreateOrder(const UserID userid)
 {
 	OrdersVec ov = orderCon.getOrders();
-	OrderID id;
+	OrderID id = 0;
 	if (ov.size() > 0) {
 		id = ov.at(ov.size() - 1).get_ID() + 1;
 	}
@@ -261,6 +291,17 @@ void FacadeController::CreateOrder(const UserID userid)
 	else {
 		printf("Order ID exists!\n");
 	}
+	return id;
+}
+
+double FacadeController::GetOrderPrice(const OrderID id)
+{
+	return orderCon.getPrice(id);
+}
+
+void FacadeController::PaidOrder(const OrderID id)
+{
+	orderCon.updateOrder(id, true);
 }
 
 void FacadeController::ListOrders(const UserID userid)

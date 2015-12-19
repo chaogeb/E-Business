@@ -33,7 +33,7 @@ public:
 	}
 
 	/*** return true if success, false if CartID not exists */
-	bool updateOrder(const CartID ID, const bool paid) {
+	bool updateOrder(const OrderID ID, const bool paid) {
 		if (db.getOrder(ID).isvalid()) {
 			db.updateOrder(ID, paid);
 			return true;

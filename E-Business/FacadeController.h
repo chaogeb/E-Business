@@ -44,6 +44,8 @@ public:
 	unsigned int GetGoodStock(const GoodsID ID);
 	void ListGoods();
 
+	void AddCard(const UserID userID, const string cardNo);
+	bool ListCards(const UserID userID);
 
 
 	/* 显示用户 userid 的购物车内商品 */
@@ -69,7 +71,11 @@ public:
 
 
 	/* 生成订单，清空购物车，修改商品余量 */
-	void CreateOrder(const UserID userid);
-
+	OrderID CreateOrder(const UserID userid);
+	double GetOrderPrice(const OrderID id);
+	void PaidOrder(const OrderID id);
 	void ListOrders(const UserID userid);
+
+	/* 与银行通讯，操作成功返回true */
+	bool Client(const string cardNum, const string password, const double price = 0);
 };

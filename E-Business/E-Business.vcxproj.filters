@@ -59,6 +59,9 @@
     <ClCompile Include="FacadeController.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Socket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="sqlite3.lib">

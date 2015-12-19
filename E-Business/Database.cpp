@@ -393,7 +393,7 @@ namespace SQLite
 		((Card*)card)->setRec(colValues);
 		return 0;
 	}
-	Card CardDB::getCard(const UserID id)
+	Card CardDB::getCard(const CardID id)
 	{
 		Card card;
 		char sql[100];
@@ -409,6 +409,15 @@ namespace SQLite
 		card.setRec(colValues);
 		((CardVec*)cardlist)->push_back(card);
 		return 0;
+	}
+	CardVec CardDB::getCards()
+	{
+		CardVec cardlist;
+		char sql[100];
+		sprintf(sql, "SELECT * FROM CARD");
+		sqlite3_exec(mpSQLite, sql, &getCards_callback, &cardlist, NULL);
+
+		return cardlist;
 	}
 	CardVec CardDB::getCards(const UserID userID)
 	{

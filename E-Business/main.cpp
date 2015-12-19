@@ -328,13 +328,53 @@ void placeorder()
 	cout << "订单总额：￥" << fixed << setprecision(2) << (float)fc.GetCartsPrice(userID) << endl;
 	FUNC_MSG;
 	cout << " 1.下单\t0.返回\n" << ">>";
+	int choice;
 	cin >> choice;
 	if (choice == 1) {
 		if (fc.CheckCart(userID)) {
-			fc.CreateOrder(userID);
-			cout << "下单成功！";
+			orderID = fc.CreateOrder(userID);
+			cout << "下单成功！" << endl;
+			string cardNo, psw;
+			bool paid = false;
+			while (!paid) {
+				int choice;
+				cout << "请选择支付方式：\n 1.选择银行卡支付\t2.绑定新卡支付\n" << ">>";
+				cin >> choice;
+				if (choice == 1) {	// 选择银行卡支付
+					if (fc.ListCards(userID)) {
+						do {
+							cout << "请输入卡号支付：\n" << ">>";
+							cin >> cardNo;
+							cout << "请输入密码：\n" << ">>";
+							cin >> psw;
+						} while (!fc.Client(cardNo, psw, fc.GetOrderPrice(orderID)));
+						paid = true;
+					}
+				}
+				else if (choice == 2) {	// 绑定新卡支付
+					do {
+						cout << "绑定新卡支付 请输入卡号：\n" << ">>";
+						cin >> cardNo;
+						cout << "请输入密码：\n" << ">>";
+						cin >> psw;
+					} while (!fc.Client(cardNo, psw));
+					fc.AddCard(userID, cardNo);
+					if (fc.Client(cardNo, psw, fc.GetOrderPrice(orderID))) {
+						paid = true;
+					}
+					else {
+						cout << "支付失败！\n";
+						PAUSE;
+					}
+				}
+				else {
+					ERR_MSG;
+					PAUSE;
+				}
+			}
+			cout << "支付成功！\n";
 		}
-		else {
+		else {	// 数量不合法
 			cout << "请修改购物车数量！" << endl;
 		}
 	}

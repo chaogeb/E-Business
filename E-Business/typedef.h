@@ -162,7 +162,7 @@ namespace ORDER
 			ID = atoi(values[0]);
 			userID = atoi(values[1]);
 			price = atof(values[2]);
-			paid = (bool)atoi(values[3]);
+			paid = atoi(values[3]) ? true : false;
 		}
 		/*** return true if record exists */
 		bool isvalid() { return ID > 0; }
@@ -194,6 +194,7 @@ namespace BANKCARD
 		/*** return true if record exists */
 		bool isvalid() { return ID > 0; }
 		CardID get_ID() { return ID; }
+		string get_CardNo() { return cardNo; }
 	};
 
 	typedef std::vector<Card> CardVec;
